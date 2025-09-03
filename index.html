@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Campus Map Quiz — Unified Checker</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="container">
+    <h1>Campus Map Questionnaire</h1>
+    <p class="subtitle"><strong>Disclaimer:</strong> not all information is shown on the map.</p>
+
+    <div class="actions" style="justify-content:center; flex-wrap:wrap; gap:.6rem;">
+        <a class="btn" href="https://www.ohlone.edu/sites/default/files/newarkmap.pdf" target="_blank" rel="noopener noreferrer">Open Newark Map (PDF)</a>
+        <a class="btn ghost" href="https://www.ohlone.edu/sites/default/files/fremontmap.pdf" target="_blank" rel="noopener noreferrer">Open Fremont Map (PDF)</a>
+    </div>
+</header>
+
+<main class="container">
+    <form id="quiz-form" class="qa-form" novalidate>
+        <section class="card" aria-labelledby="maps-title">
+            <h2 id="maps-title">Maps & Navigation</h2>
+
+            <!-- Q1 -->
+            <fieldset class="q">
+                <legend>1) Which building number is the <strong>Smith Center</strong>?</legend>
+                <input id="q-smith" name="q-smith" type="text" inputmode="numeric" placeholder="e.g., 22" required />
+            </fieldset>
+
+            <!-- Q2 -->
+            <fieldset class="q">
+                <legend>2) What buses come by at the <strong>Fremont Campus Station</strong>?</legend>
+                <input id="q-buses" name="q-buses" type="text" placeholder="e.g., 210" required />
+                <small class="help">Any of these is accepted: 210, 211, or 217.</small>
+            </fieldset>
+
+            <!-- Q3 -->
+            <fieldset class="q">
+                <legend>3) What room is the <strong>Student Health Center</strong> in Newark Campus?</legend>
+                <div class="choices">
+                    <label><input type="radio" name="q-shc" value="NC 1200"> NC 1200</label>
+                    <label><input type="radio" name="q-shc" value="NC 1217"> NC 1217</label>
+                    <label><input type="radio" name="q-shc" value="NC 1312"> NC 1312</label>
+                    <label><input type="radio" name="q-shc" value="NC 1214"> NC 1214</label>
+                </div>
+            </fieldset>
+
+            <!-- Q4 -->
+            <fieldset class="q">
+                <legend>4) What is <strong>Building 20</strong> in the Fremont Campus?</legend>
+                <input id="q-b20" name="q-b20" type="text" placeholder="e.g., Ohlone College Foundation" required />
+            </fieldset>
+
+            <!-- Q5 -->
+            <fieldset class="q">
+                <legend>5) Where is <strong>Ohlone Way</strong> located next to in the Fremont Campus?</legend>
+                <div class="choices">
+                    <label><input type="radio" name="q-way" value="Hyman Hall"> Hyman Hall</label>
+                    <label><input type="radio" name="q-way" value="Softball Field"> Softball Field</label>
+                    <label><input type="radio" name="q-way" value="Tennis Court"> Tennis Court</label>
+                    <label><input type="radio" name="q-way" value="Building 4"> Building 4</label>
+                </div>
+            </fieldset>
+
+            <div class="actions">
+                <button id="checkAll" type="submit" class="btn">Check Answers</button>
+                <button type="button" class="btn ghost" id="resetAll">Reset</button>
+            </div>
+        </section>
+    </form>
+
+    <section class="card" aria-labelledby="results-title">
+        <h2 id="results-title">Results</h2>
+        <output id="results" class="output" aria-live="polite"></output>
+    </section>
+</main>
+
+<!-- Modal -->
+<div id="modal-overlay" class="overlay hidden" aria-hidden="true"></div>
+<div id="access-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <h3 id="modal-title">Access Granted</h3>
+    <p>Your code is:</p>
+    <pre class="access-code">SPORP</pre>
+    <div class="modal-actions">
+        <button id="modal-ok" class="btn">OK</button>
+    </div>
+</div>
+
+<footer class="container footer">
+    <small>All checking is done locally in your browser.</small>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>
