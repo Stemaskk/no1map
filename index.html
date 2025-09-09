@@ -3,14 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Campus Map Quiz — Unified Checker</title>
+    <title>Campus Map + Outdoors — Unified Quiz</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 <header class="container">
-    <h1>Campus Map Questionnaire</h1>
-    <p class="subtitle"><strong>Disclaimer:</strong> not all information is shown on the map.</p>
-
+    <h1>Campus Map + Outdoors Questionnaire</h1>
+    <p class="subtitle">Answer all questions and click “Check Answers”. Get them all right to be redirected.</p>
     <div class="actions" style="justify-content:center; flex-wrap:wrap; gap:.6rem;">
         <a class="btn ghost" href="https://www.ohlone.edu/sites/default/files/newarkmap.pdf" target="_blank" rel="noopener noreferrer">Open Newark Map (PDF)</a>
         <a class="btn ghost" href="https://www.ohlone.edu/sites/default/files/fremontmap.pdf" target="_blank" rel="noopener noreferrer">Open Fremont Map (PDF)</a>
@@ -19,8 +18,8 @@
 
 <main class="container">
     <form id="quiz-form" class="qa-form" novalidate>
-        <section class="card" aria-labelledby="maps-title">
-            <h2 id="maps-title">Maps & Navigation</h2>
+        <section class="card" aria-labelledby="quiz-title">
+            <h2 id="quiz-title">Quiz</h2>
 
             <!-- Q1 -->
             <fieldset class="q">
@@ -30,13 +29,7 @@
 
             <!-- Q2 -->
             <fieldset class="q">
-                <legend>2) What buses come by at the <strong>Fremont Campus Station</strong>?</legend>
-                <input id="q-buses" name="q-buses" type="text" placeholder="Type the number here" required />
-            </fieldset>
-
-            <!-- Q3 -->
-            <fieldset class="q">
-                <legend>3) What room is the <strong>Student Health Center</strong> in Newark Campus?</legend>
+                <legend>2) What room is the <strong>Student Health Center</strong> in Newark Campus?</legend>
                 <div class="choices">
                     <label><input type="radio" name="q-shc" value="NC 1200"> NC 1200</label>
                     <label><input type="radio" name="q-shc" value="NC 1217"> NC 1217</label>
@@ -45,20 +38,26 @@
                 </div>
             </fieldset>
 
+            <!-- Q3 -->
+            <fieldset class="q">
+                <legend>3) What is the <strong>building number</strong> of Starbucks at Ohlone?</legend>
+                <input id="out-starbucks" name="out-starbucks" type="text" inputmode="numeric" placeholder="Type the number here" required />
+            </fieldset>
+
             <!-- Q4 -->
             <fieldset class="q">
-                <legend>4) What is <strong>Building 20</strong> in the Fremont Campus?</legend>
-                <input id="q-b20" name="q-b20" type="text" placeholder="Type the name here" required />
+                <legend>4) Where does the trail next to the parking garage lead to?</legend>
+                <input id="out-trail" name="out-trail" type="text" placeholder="Type the name here" required />
             </fieldset>
 
             <!-- Q5 -->
             <fieldset class="q">
-                <legend>5) Where is <strong>Ohlone Way</strong> located next to in the Fremont Campus?</legend>
-                <div class="choices">
-                    <label><input type="radio" name="q-way" value="Hyman Hall"> Hyman Hall</label>
-                    <label><input type="radio" name="q-way" value="Softball Field"> Softball Field</label>
-                    <label><input type="radio" name="q-way" value="Tennis Court"> Tennis Court</label>
-                    <label><input type="radio" name="q-way" value="Building 4"> Building 4</label>
+                <legend>5) What are some animals in the pond? <em>(Select all that apply)</em></legend>
+                <div class="choices grid">
+                    <label><input type="checkbox" name="out-animals" value="Frogs"> Frogs</label>
+                    <label><input type="checkbox" name="out-animals" value="Turtles"> Turtles</label>
+                    <label><input type="checkbox" name="out-animals" value="Koi Fish"> Koi Fish</label>
+                    <label><input type="checkbox" name="out-animals" value="Baby Alligators"> Baby Alligators</label>
                 </div>
             </fieldset>
 
@@ -74,17 +73,6 @@
         <output id="results" class="output" aria-live="polite"></output>
     </section>
 </main>
-
-<!-- Modal -->
-<div id="modal-overlay" class="overlay hidden" aria-hidden="true"></div>
-<div id="access-modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <h3 id="modal-title">Access Granted</h3>
-    <p>Your code is:</p>
-    <pre class="access-code">SPORP</pre>
-    <div class="modal-actions">
-        <button id="modal-ok" class="btn">OK</button>
-    </div>
-</div>
 
 <footer class="container footer">
     <small>All checking is done locally in your browser.</small>

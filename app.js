@@ -8,51 +8,45 @@ function collectForm(formEl) {
             else data[name] = [data[name], value];
         } else data[name] = value;
     }
+    // ensure unchecked checkbox groups appear as empty arrays
+    formEl.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        if (!fd.has(cb.name)) data[cb.name] = [];
+    });
     return data;
 }
-
 function normalizeLower(s){ return (s||"").trim().toLowerCase(); }
 function digitsOnly(s){ return (s||"").toString().replace(/\D/g,""); }
+function sameSet(a = [], b = []) {
+    const A = [...a].sort(); const B = [...b].sort();
+    return JSON.stringify(A) === JSON.stringify(B);
+}
 
-// ---------- correct answers ----------
+// ---------- correct answers (same as your originals) ----------
 const correct = {
-    "q-smith": "22",                                  // Q1
-    // Q2: accept any one of these bus numbers typed in any format
-    "q-buses-any": ["210", "211", "217"],
-    "q-shc": "NC 1214",                               // Q3
-    "q-b20": "ohlone college foundation",             // Q4 (case-insensitive)
-    "q-way": "Building 4"                             // Q5
+    // Q1
+    "q-smith": "22",
+    // Q2 (MC)
+    "q-shc": "NC 1214",
+    // Q3 (digits only)
+    "out-starbucks": "19",
+    // Q4 (case-insensitive)
+    "out-trail": "mission peak",
+    // Q5 (checkbox set)
+    "out-animals": ["Turtles","Koi Fish"]
 };
 
-const REDIRECT_URL = "https://ohlonecicada.netlify.app/";
+// ---------- redirect ----------
+const REDIRECT_URL = "https://clnh3.netlify.app/";
 
 // ---------- overall checker ----------
 function allAnswersCorrect(ans) {
-    // Q1 numeric
     const q1 = digitsOnly(ans["q-smith"]) === correct["q-smith"];
-
-    // Q2 buses: accept if input contains any one of 210/211/217
-    const typedBusDigits = digitsOnly(ans["q-buses"]);
-    const q2 = correct["q-buses-any"].includes(typedBusDigits);
-
-    // Q3 MC
-    const q3 = (ans["q-shc"] || "") === correct["q-shc"];
-
-    // Q4 text (case-insensitive)
-    const q4 = normalizeLower(ans["q-b20"]) === correct["q-b20"];
-
-    // Q5 MC
-    const q5 = (ans["q-way"] || "") === correct["q-way"];
-
+    const q2 = (ans["q-shc"] || "") === correct["q-shc"];
+    const q3 = digitsOnly(ans["out-starbucks"]) === correct["out-starbucks"];
+    const q4 = normalizeLower(ans["out-trail"]) === correct["out-trail"];
+    const q5 = sameSet(ans["out-animals"] || [], correct["out-animals"]);
     return q1 && q2 && q3 && q4 && q5;
 }
-
-// ---------- modal controls ----------
-const overlay = document.getElementById("modal-overlay");
-const modal = document.getElementById("access-modal");
-const okBtn = document.getElementById("modal-ok");
-function showModal(){ overlay.classList.remove("hidden"); modal.classList.remove("hidden"); overlay.setAttribute("aria-hidden","false"); }
-function hideModal(){ overlay.classList.add("hidden"); modal.classList.add("hidden"); overlay.setAttribute("aria-hidden","true"); }
 
 // ---------- wire up ----------
 const form = document.getElementById("quiz-form");
@@ -62,21 +56,17 @@ const resetAll = document.getElementById("resetAll");
 form.addEventListener("submit", (e) => {
     e.preventDefault();
     const ok = allAnswersCorrect(collectForm(form));
-    results.textContent = ok ? "All correct! 🎉" : "Not quite — try again.";
+    if (ok) {
+        results.textContent = "All correct! Redirecting…";
+        // immediate redirect (no popup)
+        window.location.href = REDIRECT_URL;
+    } else {
+        results.textContent = "Not quite — try again.";
+    }
     results.scrollIntoView({ behavior: "smooth", block: "nearest" });
-    if (ok) showModal(); // shows SPORP
 });
-
-okBtn.addEventListener("click", () => {
-    hideModal();
-    window.location.href = REDIRECT_URL;
-});
-
-overlay.addEventListener("click", hideModal);
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") hideModal(); });
 
 resetAll.addEventListener("click", () => {
     form.reset();
     results.textContent = "";
-    hideModal();
 });
